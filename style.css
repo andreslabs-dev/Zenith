@@ -1032,12 +1032,118 @@ html[data-theme="light"] .mobile-menu__theme-dot { transform: translateX(20px); 
 }
 
 /* ============================================================
+   13b. BOTÓN FLOTANTE DE CONTACTO (WhatsApp / Correo)
+   ============================================================ */
+.contact-fab {
+  position: fixed;
+  right: 28px;
+  bottom: 28px;
+  z-index: 950;
+}
+
+.contact-fab__trigger {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--color-white);
+  color: var(--color-black);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 12px 32px rgba(var(--black-rgb), 0.35), 0 2px 8px rgba(var(--black-rgb), 0.2);
+  transition: transform 0.5s var(--ease-premium), background 0.4s var(--ease-out-soft), box-shadow 0.4s var(--ease-out-soft);
+  animation: fabPulse 3.5s ease-in-out infinite;
+}
+.contact-fab__trigger:hover {
+  background: var(--color-grey);
+  transform: translateY(-3px) scale(1.04);
+  box-shadow: 0 16px 40px rgba(var(--black-rgb), 0.4), 0 4px 10px rgba(var(--black-rgb), 0.22);
+  animation-play-state: paused;
+}
+.contact-fab__trigger:focus-visible {
+  outline: 1px solid var(--color-grey);
+  outline-offset: 4px;
+}
+
+@keyframes fabPulse {
+  0%, 100% { box-shadow: 0 12px 32px rgba(var(--black-rgb), 0.35), 0 2px 8px rgba(var(--black-rgb), 0.2), 0 0 0 0 rgba(var(--black-rgb), 0.12); }
+  50% { box-shadow: 0 12px 32px rgba(var(--black-rgb), 0.35), 0 2px 8px rgba(var(--black-rgb), 0.2), 0 0 0 10px rgba(var(--black-rgb), 0); }
+}
+
+.contact-fab__icon-open,
+.contact-fab__icon-close {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  transition: opacity 0.35s var(--ease-out-soft), transform 0.45s var(--ease-premium);
+}
+.contact-fab__icon-open { opacity: 1; transform: rotate(0deg) scale(1); }
+.contact-fab__icon-close { opacity: 0; transform: rotate(-45deg) scale(0.6); }
+
+.contact-fab.is-open .contact-fab__icon-open { opacity: 0; transform: rotate(45deg) scale(0.6); }
+.contact-fab.is-open .contact-fab__icon-close { opacity: 1; transform: rotate(0deg) scale(1); }
+.contact-fab.is-open .contact-fab__trigger { animation: none; }
+
+.contact-fab__menu {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 16px);
+  width: 220px;
+  background: var(--color-black);
+  border: 1px solid var(--grey-12);
+  border-radius: 4px;
+  padding: 8px;
+  box-shadow: 0 20px 50px rgba(var(--black-rgb), 0.35);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px) scale(0.96);
+  transform-origin: bottom right;
+  transition: opacity 0.35s var(--ease-out-soft), transform 0.4s var(--ease-premium), visibility 0.4s;
+}
+.contact-fab.is-open .contact-fab__menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+
+.contact-fab__item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 3px;
+  color: var(--color-white);
+  transition: background 0.3s var(--ease-out-soft), transform 0.3s var(--ease-out-soft);
+}
+.contact-fab__item + .contact-fab__item { margin-top: 2px; }
+.contact-fab__item:hover,
+.contact-fab__item:focus-visible {
+  background: var(--white-06);
+  transform: translateX(3px);
+}
+.contact-fab__item:focus-visible { outline: 1px solid var(--grey-20); outline-offset: -2px; }
+
+.contact-fab__icon {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-grey);
+}
+.contact-fab__icon svg { width: 100%; height: 100%; }
+
+.contact-fab__text { font-size: 0.92rem; font-weight: 500; }
+
+/* ============================================================
    14. BACK TO TOP
    ============================================================ */
 .back-to-top {
   position: fixed;
   right: 28px;
-  bottom: 28px;
+  bottom: 102px;
   width: 46px;
   height: 46px;
   border-radius: 50%;
@@ -1093,7 +1199,11 @@ html[data-theme="light"] .mobile-menu__theme-dot { transform: translateX(20px); 
 
   .footer__inner { flex-direction: column; }
 
-  .back-to-top { right: 18px; bottom: 18px; width: 42px; height: 42px; }
+  .contact-fab { right: 18px; bottom: 18px; }
+  .contact-fab__trigger { width: 54px; height: 54px; }
+  .contact-fab__icon-open, .contact-fab__icon-close { width: 21px; height: 21px; }
+  .contact-fab__menu { width: min(220px, calc(100vw - 36px)); }
+  .back-to-top { right: 18px; bottom: 88px; width: 42px; height: 42px; }
 }
 
 @media (max-width: 430px) {
