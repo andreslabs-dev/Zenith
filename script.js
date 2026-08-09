@@ -371,6 +371,60 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* ----------------------------------------------------------
+     11. BOTÓN FLOTANTE DE CONTACTO (WhatsApp / Correo)
+     ---------------------------------------------------------- */
+  const contactFab = document.getElementById('contactFab');
+  const contactFabTrigger = document.getElementById('contactFabTrigger');
+  const contactFabMenu = document.getElementById('contactFabMenu');
+
+  if (contactFab && contactFabTrigger && contactFabMenu) {
+    function openFabMenu() {
+      contactFab.classList.add('is-open');
+      contactFabTrigger.setAttribute('aria-expanded', 'true');
+      contactFabTrigger.setAttribute('aria-label', 'Cerrar opciones de contacto');
+    }
+
+    function closeFabMenu() {
+      contactFab.classList.remove('is-open');
+      contactFabTrigger.setAttribute('aria-expanded', 'false');
+      contactFabTrigger.setAttribute('aria-label', 'Abrir opciones de contacto');
+    }
+
+    function isFabOpen() {
+      return contactFab.classList.contains('is-open');
+    }
+
+    contactFabTrigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (isFabOpen()) {
+        closeFabMenu();
+      } else {
+        openFabMenu();
+      }
+    });
+
+    // Cerrar al hacer clic fuera del botón/menú
+    document.addEventListener('click', (e) => {
+      if (isFabOpen() && !contactFab.contains(e.target)) {
+        closeFabMenu();
+      }
+    });
+
+    // Cerrar con la tecla Escape (y devolver el foco al botón)
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && isFabOpen()) {
+        closeFabMenu();
+        contactFabTrigger.focus();
+      }
+    });
+
+    // Cerrar al elegir una opción (WhatsApp o Correo)
+    contactFabMenu.querySelectorAll('.contact-fab__item').forEach(item => {
+      item.addEventListener('click', () => closeFabMenu());
+    });
+  }
+
+  /* ----------------------------------------------------------
      Cerrar menú móvil al redimensionar a desktop
      ---------------------------------------------------------- */
   window.addEventListener('resize', () => {
